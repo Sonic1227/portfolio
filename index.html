@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>孙靖轩 - 新媒体运营作品集</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --bg-deep: #0a0a0f;
+    --glass-bg: rgba(255, 255, 255, 0.04);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-highlight: rgba(255, 255, 255, 0.12);
+    --text-primary: rgba(255, 255, 255, 0.92);
+    --text-secondary: rgba(255, 255, 255, 0.55);
+    --text-tertiary: rgba(255, 255, 255, 0.35);
+    --accent: #5e9eff;
+    --accent-soft: rgba(94, 158, 255, 0.15);
+    --accent-glow: rgba(94, 158, 255, 0.3);
+    --gold: #f0c060;
+    --gold-soft: rgba(240, 192, 96, 0.12);
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 22px;
+    --font-sans: "Inter", "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  body { font-family: var(--font-sans); background: var(--bg-deep); color: var(--text-primary); line-height: 1.6; overflow-x: hidden; min-height: 100vh; }
+  #bg-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+  .noise-overlay { position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.035; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  .wrapper { position: relative; z-index: 2; max-width: 880px; margin: 0 auto; padding: 0 28px; }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 16px 0; transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1); }
+  nav.scrolled { background: rgba(10,10,15,0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); }
+  .nav-inner { max-width: 880px; margin: 0 auto; padding: 0 28px; display: flex; justify-content: space-between; align-items: center; }
+  .nav-name { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; color: var(--text-primary); }
+  .nav-links { display: flex; gap: 24px; list-style: none; }
+  .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 13px; font-weight: 500; transition: color 0.25s; }
+  .nav-links a:hover { color: var(--text-primary); }
+  section { padding: 100px 0; }
+  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding-top: 60px; padding-bottom: 80px; }
+  .hero-eyebrow { font-size: 13px; font-weight: 500; color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 16px; }
+  .hero h1 { font-size: clamp(42px, 7vw, 72px); font-weight: 700; letter-spacing: -0.025em; line-height: 1.08; margin-bottom: 20px; color: var(--text-primary); }
+  .hero h1 .dot { color: var(--accent); }
+  .hero-subtitle { font-size: 18px; font-weight: 400; color: var(--text-secondary); max-width: 520px; line-height: 1.6; }
+  .hero-stats { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 40px; }
+  .hero-stat { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-sm); padding: 14px 20px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); transition: all 0.3s; }
+  .hero-stat:hover { border-color: var(--glass-highlight); background: rgba(255,255,255,0.06); transform: translateY(-2px); }
+  .hero-stat .val { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; color: var(--text-primary); }
+  .hero-stat .lbl { font-size: 12px; color: var(--text-tertiary); margin-top: 2px; }
+  .section-header { margin-bottom: 48px; }
+  .section-label { font-size: 12px; font-weight: 600; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+  .section-header h2 { font-size: clamp(28px, 4vw, 38px); font-weight: 700; letter-spacing: -0.02em; color: var(--text-primary); }
+  .advantage-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+  .advantage-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 28px 24px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); transition: all 0.3s; }
+  .advantage-card:hover { border-color: var(--glass-highlight); background: rgba(255,255,255,0.05); }
+  .advantage-card .icon { width: 40px; height: 40px; border-radius: var(--radius-sm); background: var(--accent-soft); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; color: var(--accent); }
+  .advantage-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+  .advantage-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+  .skill-groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+  .skill-group { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 24px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+  .skill-group h4 { font-size: 12px; font-weight: 600; color: var(--text-tertiary); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 14px; }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .skill-tag { font-size: 13px; font-weight: 500; padding: 6px 14px; border-radius: 20px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text-secondary); transition: all 0.25s; }
+  .skill-tag:hover { background: var(--accent-soft); border-color: var(--accent-glow); color: var(--accent); }
+  .skill-tag.accent { background: var(--accent-soft); border-color: var(--accent-glow); color: var(--accent); }
+  .video-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  .video-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); border-radius: var(--radius-lg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); overflow: hidden; transition: all 0.35s cubic-bezier(0.25, 0.1, 0.25, 1); position: relative; }
+  .video-card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--glass-highlight), transparent); z-index: 1; }
+  .video-card:hover { border-color: rgba(255,255,255,0.25); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+  .video-thumb { width: 100%; aspect-ratio: 16 / 9; background: rgba(255,255,255,0.03); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; cursor: pointer; }
+  .video-thumb::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 60%, rgba(10,10,15,0.5)); pointer-events: none; }
+  .video-player { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+  .play-btn { position: absolute; inset: 0; z-index: 2; display: flex; align-items: center; justify-content: center; background: transparent; border: none; cursor: pointer; transition: opacity 0.3s; }
+  .play-btn svg { width: 52px; height: 52px; padding: 14px; border-radius: 50%; background: rgba(0,0,0,0.45); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,0.15); transition: all 0.3s; opacity: 0.85; }
+  .video-card:hover .play-btn svg { background: rgba(94,158,255,0.3); border-color: rgba(94,158,255,0.4); transform: scale(1.08); opacity: 1; }
+  .video-thumb .placeholder-icon { width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); transition: all 0.3s; z-index: 2; position: relative; }
+  .video-card:hover .placeholder-icon { background: var(--accent-soft); border-color: var(--accent-glow); }
+  .video-thumb .play-icon { color: rgba(255,255,255,0.5); transition: color 0.3s; }
+  .video-card:hover .play-icon { color: var(--accent); }
+  .video-info { padding: 20px 22px; }
+  .video-tag { font-size: 11px; font-weight: 600; color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; }
+  .video-title { font-size: 16px; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; letter-spacing: -0.01em; }
+  .video-desc { font-size: 13px; color: var(--text-tertiary); line-height: 1.5; }
+  .lightbox { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.35s cubic-bezier(0.25, 0.1, 0.25, 1); }
+  .lightbox.open { opacity: 1; pointer-events: auto; }
+  .lightbox-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); cursor: pointer; }
+  .lightbox-container { position: relative; width: min(90vw, 1000px); max-height: 90vh; z-index: 1; transform: scale(0.92); transition: transform 0.35s cubic-bezier(0.25, 0.1, 0.25, 1); }
+  .lightbox.open .lightbox-container { transform: scale(1); }
+  .lightbox-close { position: absolute; top: -44px; right: 0; width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); color: rgba(255,255,255,0.7); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.25s; z-index: 2; }
+  .lightbox-close:hover { background: rgba(255,255,255,0.12); color: #fff; border-color: rgba(255,255,255,0.3); }
+  #lightbox-video { width: 100%; max-height: 85vh; border-radius: 12px; outline: none; display: block; background: #000; }
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: linear-gradient(180deg, var(--glass-highlight), var(--glass-border), transparent); }
+  .timeline-item { position: relative; margin-bottom: 40px; padding-left: 28px; }
+  .timeline-item:last-child { margin-bottom: 0; }
+  .timeline-item::before { content: ""; position: absolute; left: -32px; top: 8px; width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 12px var(--accent-glow); }
+  .timeline-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); padding: 28px; transition: all 0.3s; position: relative; overflow: hidden; }
+  .timeline-card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--glass-highlight), transparent); }
+  .timeline-card:hover { border-color: var(--glass-highlight); transform: translateX(4px); }
+  .timeline-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .timeline-company { font-size: 18px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.01em; }
+  .timeline-role { font-size: 14px; font-weight: 500; color: var(--accent); }
+  .timeline-date { font-size: 13px; color: var(--text-tertiary); font-weight: 500; }
+  .timeline-details { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .timeline-details li { font-size: 14px; color: var(--text-secondary); line-height: 1.6; padding-left: 16px; position: relative; }
+  .timeline-details li::before { content: ""; position: absolute; left: 0; top: 10px; width: 4px; height: 4px; border-radius: 50%; background: var(--text-tertiary); }
+  .metric-highlight { color: var(--gold); font-weight: 600; }
+  .edu-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); padding: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; position: relative; overflow: hidden; }
+  .edu-card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--glass-highlight), transparent); }
+  .edu-info h3 { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+  .edu-info p { font-size: 14px; color: var(--text-secondary); }
+  .edu-meta { text-align: right; }
+  .edu-meta .degree { font-size: 14px; font-weight: 500; color: var(--accent); }
+  .edu-meta .years { font-size: 13px; color: var(--text-tertiary); }
+  .contact-section { text-align: center; padding-bottom: 60px; }
+  .contact-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); padding: 40px 32px; display: inline-flex; flex-direction: column; align-items: center; gap: 20px; position: relative; overflow: hidden; }
+  .contact-card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--glass-highlight), transparent); }
+  .contact-row { display: flex; gap: 32px; flex-wrap: wrap; justify-content: center; }
+  .contact-item { display: flex; align-items: center; gap: 10px; font-size: 15px; color: var(--text-secondary); }
+  .contact-item .ci-icon { width: 32px; height: 32px; border-radius: 8px; background: var(--accent-soft); display: flex; align-items: center; justify-content: center; color: var(--accent); }
+  .contact-cta { font-size: 13px; color: var(--text-tertiary); }
+  footer { text-align: center; padding: 32px 0; border-top: 1px solid var(--glass-border); }
+  footer p { font-size: 12px; color: var(--text-tertiary); }
+  .reveal { opacity: 0; transform: translateY(30px); transition: all 0.7s cubic-bezier(0.25, 0.1, 0.25, 1); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+  @media (max-width: 640px) {
+    section { padding: 60px 0; }
+    .hero { min-height: auto; padding-top: 100px; }
+    .hero-stats { gap: 8px; }
+    .hero-stat { padding: 12px 16px; }
+    .hero-stat .val { font-size: 22px; }
+    .nav-links { display: none; }
+    .timeline { padding-left: 16px; }
+    .timeline-item { padding-left: 16px; }
+    .timeline-item::before { left: -20px; }
+    .video-grid { grid-template-columns: 1fr; gap: 14px; }
+    .video-info { padding: 16px 18px; }
+    .contact-row { gap: 16px; flex-direction: column; align-items: center; }
+    .lightbox-container { width: 96vw; }
+    .lightbox-close { top: -38px; right: 4px; }
+    #lightbox-video { border-radius: 8px; }
+  }
+
+</style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+<div class="noise-overlay"></div>
+
+<nav id="nav">
+  <div class="nav-inner">
+    <span class="nav-name">孙靖轩</span>
+    <ul class="nav-links">
+      <li><a href="#about">关于</a></li>
+      <li><a href="#skills">技能</a></li>
+      <li><a href="#videos">视频</a></li>
+      <li><a href="#experience">经历</a></li>
+      <li><a href="#contact">联系</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="wrapper">
+  <section class="hero">
+    <p class="hero-eyebrow reveal">新媒体运营 · 4年经验</p>
+    <h1 class="reveal reveal-delay-1">用数据驱动内容<span class="dot">.</span><br>用内容创造增长</h1>
+    <p class="hero-subtitle reveal reveal-delay-2">
+      抖音千川 + 小红书双平台实战操盘手，从内容策划到投放转化全链路覆盖，累计打造千万级播放爆款，操盘年 GMV 破千万。
+    </p>
+    <div class="hero-stats reveal reveal-delay-3">
+      <div class="hero-stat">
+        <div class="val"><span class="counter" data-target="2000">0</span>W+</div>
+        <div class="lbl">单条视频最高播放</div>
+      </div>
+      <div class="hero-stat">
+        <div class="val"><span class="counter" data-target="1000">0</span>W+</div>
+        <div class="lbl">年度操盘 GMV</div>
+      </div>
+      <div class="hero-stat">
+        <div class="val">ROI <span class="counter" data-target="10">0</span>+</div>
+        <div class="lbl">千川投放回报率</div>
+      </div>
+      <div class="hero-stat">
+        <div class="val"><span class="counter" data-target="50">0</span>W+</div>
+        <div class="lbl">月稳定销售额</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="section-header reveal">
+      <p class="section-label">核心优势</p>
+      <h2>全链路新媒体运营能力</h2>
+    </div>
+    <div class="advantage-grid">
+      <div class="advantage-card reveal reveal-delay-1">
+        <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 1-9 9m9-9a9 9 0 0 0-9-9m9 9H3m9 9a9 9 0 0 1-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9"/></svg></div>
+        <h3>双平台 0-1 体系搭建</h3>
+        <p>四年短视频内容 + 电商赛道运营经验，具备用户画像拆解、账号搭建、热点选题策划、拍摄剪辑、千川投放、数据分析全流程能力。</p>
+      </div>
+      <div class="advantage-card reveal reveal-delay-2">
+        <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <h3>数据化业绩产出</h3>
+        <p>健身服饰单视频最高 2000W 浏览，千川素材单条 GMV 突破 200W，ROI 10+；潮玩类月销 50W+；数码类单日转化 GMV 20W。</p>
+      </div>
+      <div class="advantage-card reveal reveal-delay-3">
+        <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+        <h3>AI 工具矩阵</h3>
+        <p>熟练运用 Codex、Seedance 2.0、Gemini 等 AI 工具，结合达芬奇与剪映专业剪辑能力，大幅提升内容生产效率与创意质量。</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="section-header reveal">
+      <p class="section-label">技能工具</p>
+      <h2>技术栈与平台能力</h2>
+    </div>
+    <div class="skill-groups">
+      <div class="skill-group reveal reveal-delay-1">
+        <h4>AI 工具</h4>
+        <div class="skill-tags">
+          <span class="skill-tag accent">Codex</span>
+          <span class="skill-tag">Seedance 2.0</span>
+          <span class="skill-tag">Gemini</span>
+        </div>
+      </div>
+      <div class="skill-group reveal reveal-delay-2">
+        <h4>剪辑制作</h4>
+        <div class="skill-tags">
+          <span class="skill-tag accent">达芬奇</span>
+          <span class="skill-tag">剪映</span>
+        </div>
+      </div>
+      <div class="skill-group reveal reveal-delay-3">
+        <h4>投放平台</h4>
+        <div class="skill-tags">
+          <span class="skill-tag accent">抖音千川</span>
+          <span class="skill-tag accent">小红书</span>
+        </div>
+      </div>
+      <div class="skill-group reveal reveal-delay-4">
+        <h4>内容能力</h4>
+        <div class="skill-tags">
+          <span class="skill-tag">内容策划</span>
+          <span class="skill-tag">拍摄</span>
+          <span class="skill-tag">剪辑</span>
+          <span class="skill-tag">投放</span>
+          <span class="skill-tag">数据分析</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="videos">
+    <div class="section-header reveal">
+      <p class="section-label">视频作品</p>
+      <h2>代表案例精选</h2>
+    </div>
+    <div class="video-grid">
+<div class="video-card reveal reveal-delay-2">
+        <div class="video-thumb" data-video="allstar_sports.mp4">
+          <video class="video-player" src="https://subtle-pony-af2a0a.netlify.app/allstar_sports.mp4" preload="metadata" muted loop playsinline></video>
+          <button class="play-btn" aria-label="播放">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="6 3 20 12 6 21"/></svg>
+          </button>
+        </div>
+        <div class="video-info">
+          <div class="video-tag">健身服饰 · 爆款视频</div>
+          <div class="video-title">全明星运动会创意系列</div>
+          <div class="video-desc">策划男女健身区别及全明星运动会创意视频，单条全平台播放 2000W+，品牌曝光量从 3000W 提升至 1 亿</div>
+        </div>
+      </div>
+      <div class="video-card reveal reveal-delay-3">
+        <div class="video-thumb" data-video="qianchuan_ad.mp4">
+          <video class="video-player" src="https://subtle-pony-af2a0a.netlify.app/qianchuan_ad.mp4" preload="metadata" muted loop playsinline></video>
+          <button class="play-btn" aria-label="播放">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="6 3 20 12 6 21"/></svg>
+          </button>
+        </div>
+        <div class="video-info">
+          <div class="video-tag">千川投放 · 高转化素材</div>
+          <div class="video-title">千川投放素材矩阵</div>
+          <div class="video-desc">搭建千川素材团队，多模式编拍剪，ROI 从 3 提升至 10，千川单月 GMV 从 15W 提升至 100W，年 GMV 1000W+</div>
+        </div>
+      </div>
+      <div class="video-card reveal reveal-delay-4">
+        <div class="video-thumb" data-video="mini_camera.mp4">
+          <video class="video-player" src="https://subtle-pony-af2a0a.netlify.app/mini_camera.mp4" preload="metadata" muted loop playsinline></video>
+          <button class="play-btn" aria-label="播放">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="6 3 20 12 6 21"/></svg>
+          </button>
+        </div>
+        <div class="video-info">
+          <div class="video-tag">数码产品 · 达人带货</div>
+          <div class="video-title">Mini 相机爆款短视频</div>
+          <div class="video-desc">主导策划 mini 相机带货短视频，斩获 30W 点赞，单日引流成交 GMV 超 20W，沉淀标准化内容脚本模板</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="section-header reveal">
+      <p class="section-label">工作经历</p>
+      <h2>职业轨迹与关键成果</h2>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="timeline-card">
+          <div class="timeline-header">
+            <div>
+              <div class="timeline-company">无锡启源电子商务工作室</div>
+              <div class="timeline-role">电商运营</div>
+            </div>
+            <div class="timeline-date">2025.05 - 2026.05</div>
+          </div>
+          <ul class="timeline-details">
+            <li>编写潮玩电商直播间内容玩法，将现有产品毛利提升 <span class="metric-highlight">10%</span></li>
+            <li>0-1 搭建抖音 + 小红书电商视频体系编拍剪，通过短视频内容产出与千川投放策略，单月提升销售额至 <span class="metric-highlight">50W+</span></li>
+            <li>协调内容创作与直播小组打通流量链路，短视频引流直播间，双向提升账号平台权重</li>
+          </ul>
+        </div>
+      </div>
+      <div class="timeline-item reveal reveal-delay-1">
+        <div class="timeline-card">
+          <div class="timeline-header">
+            <div>
+              <div class="timeline-company">无锡核心力量贸易有限公司</div>
+              <div class="timeline-role">内容运营</div>
+            </div>
+            <div class="timeline-date">2023.05 - 2025.05</div>
+          </div>
+          <ul class="timeline-details">
+            <li>搭建千川素材团队，完善工作模型，ROI 从 <span class="metric-highlight">3 提升至 10</span>，千川 GMV 单月从 15W 提升至 <span class="metric-highlight">100W</span></li>
+            <li>独立策划高转化带货短视频，男女健身区别及全明星运动会创意视频达成单条 <span class="metric-highlight">2000W+</span> 全平台播放</li>
+            <li>品牌账号话题曝光量从 3000W 提升至 <span class="metric-highlight">1 亿</span>，年 GMV <span class="metric-highlight">1000W+</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="timeline-item reveal reveal-delay-2">
+        <div class="timeline-card">
+          <div class="timeline-header">
+            <div>
+              <div class="timeline-company">无锡天天向上文化传媒有限公司</div>
+              <div class="timeline-role">内容运营</div>
+            </div>
+            <div class="timeline-date">2021.10 - 2023.04</div>
+          </div>
+          <ul class="timeline-details">
+            <li>独立负责 2 个数码达人账号从 0 搭建，完成账号前期冷启动全流程规划</li>
+            <li>主导策划 mini 相机带货爆款短视频，斩获 30W 点赞，单日引流成交 GMV 超 <span class="metric-highlight">20W</span></li>
+            <li>沉淀标准化内容脚本模板，批量复制同类带货内容放大转化，月稳定产出 7 个以上爆款产品</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-header reveal">
+      <p class="section-label">教育背景</p>
+      <h2>学历与专业</h2>
+    </div>
+    <div class="edu-card reveal reveal-delay-1">
+      <div class="edu-info">
+        <h3>苏州高博软件技术职业学院</h3>
+        <p>主修：网络营销、金融科技概论、数据基础分析、电子商务运营</p>
+      </div>
+      <div class="edu-meta">
+        <div class="degree">互联网金融 · 大专</div>
+        <div class="years">2019 - 2023</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact-section">
+    <div class="section-header reveal">
+      <p class="section-label">联系方式</p>
+      <h2>期待与你合作</h2>
+    </div>
+    <div class="contact-card reveal reveal-delay-1">
+      <div class="contact-row">
+        <div class="contact-item">
+          <div class="ci-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+          <span>18206171170</span>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+          <span>nicksjxxx@163.com</span>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <span>无锡</span>
+        </div>
+      </div>
+      <p class="contact-cta">新媒体运营 · 期望薪资 8-9K · 期望城市：无锡</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 孙靖轩. Made with Codex.</p>
+  </footer>
+</div>
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-backdrop"></div>
+  <div class="lightbox-container">
+    <button class="lightbox-close" aria-label="关闭"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <video id="lightbox-video" controls playsinline></video>
+  </div>
+</div>
+
+<script>
+(function(){var c=document.getElementById("bg-canvas");var x=c.getContext("2d");var p=[];var w,h;function r(){w=c.width=window.innerWidth;h=c.height=window.innerHeight;}r();window.addEventListener("resize",r);var P=function(){this.reset();this.y=Math.random()*h;};P.prototype.reset=function(){this.x=Math.random()*w;this.y=-20;this.size=Math.random()*1.5+0.5;this.speed=Math.random()*0.3+0.1;this.opacity=Math.random()*0.15+0.03;this.wobble=Math.random()*Math.PI*2;this.wobbleSpeed=(Math.random()-0.5)*0.02;};P.prototype.update=function(){this.y+=this.speed;this.wobble+=this.wobbleSpeed;this.x+=Math.sin(this.wobble)*0.3;if(this.y>h+20){this.y=-20;this.x=Math.random()*w;}if(this.x<-20)this.x=w+20;if(this.x>w+20)this.x=-20;};P.prototype.draw=function(){x.beginPath();x.arc(this.x,this.y,this.size,0,Math.PI*2);x.fillStyle="rgba(94,158,255,"+this.opacity+")";x.fill();};for(var i=0;i<80;i++){p.push(new P());}function a(){x.clearRect(0,0,w,h);p.forEach(function(z){z.update();z.draw();});requestAnimationFrame(a);}a();})();
+(function(){var r=document.querySelectorAll(".reveal");var o=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)x.target.classList.add("visible");});},{threshold:0.15,rootMargin:"0px 0px -40px 0px"});r.forEach(function(e){o.observe(e);});})();
+(function(){var c=document.querySelectorAll(".counter");var o=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){var el=x.target;var t=parseInt(el.dataset.target);var s=performance.now();function u(n){var p=Math.min((n-s)/1800,1);var ed=1-Math.pow(1-p,3);el.textContent=Math.round(ed*t);if(p<1)requestAnimationFrame(u);else el.textContent=t;}requestAnimationFrame(u);o.unobserve(el);}});},{threshold:0.5});c.forEach(function(e){o.observe(e);});})();
+(function(){var n=document.getElementById("nav");window.addEventListener("scroll",function(){if(window.scrollY>20)n.classList.add("scrolled");else n.classList.remove("scrolled");});})();
+
+(function(){var lb=document.getElementById("lightbox");var v=document.getElementById("lightbox-video");var bd=lb.querySelector(".lightbox-backdrop");var cb=lb.querySelector(".lightbox-close");function open(src){v.src=src;v.load();lb.classList.add("open");document.body.style.overflow="hidden";v.play().catch(function(){});}function close(){v.pause();lb.classList.remove("open");document.body.style.overflow="";v.src="";}bd.addEventListener("click",close);cb.addEventListener("click",close);document.addEventListener("keydown",function(e){if(e.key==="Escape"&&lb.classList.contains("open"))close();});document.querySelectorAll(".video-thumb").forEach(function(t){var vid=t.querySelector(".video-player");var btn=t.querySelector(".play-btn");if(!vid)return;var s=vid.getAttribute("src");function h(e){e.stopPropagation();open(s);}if(btn)btn.addEventListener("click",h);t.addEventListener("click",function(e){if(e.target===t||e.target===vid)open(s);});});})();
+</script>
+
+</body>
+</html>
