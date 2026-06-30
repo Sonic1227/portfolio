@@ -147,6 +147,113 @@
     #lightbox-video { border-radius: 8px; }
   }
 
+
+  /* Category Portfolio */
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+  .cat-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-lg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    overflow: hidden;
+    transition: all 0.35s cubic-bezier(0.25, 0.1, 0.25, 1);
+    position: relative;
+  }
+  .cat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--glass-highlight), transparent);
+    z-index: 1;
+  }
+  .cat-card:hover {
+    border-color: rgba(255, 255, 255, 0.25);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  .cat-thumb {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: rgba(255,255,255,0.03);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .cat-thumb::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 60%, rgba(10,10,15,0.5));
+    pointer-events: none;
+  }
+  .cat-thumb .cat-icon {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: all 0.3s;
+    z-index: 2;
+  }
+  .cat-card:hover .cat-icon {
+    background: var(--accent-soft);
+    border-color: var(--accent-glow);
+  }
+  .cat-icon svg { color: rgba(255,255,255,0.5); transition: color 0.3s; }
+  .cat-card:hover .cat-icon svg { color: var(--accent); }
+  .cat-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 2;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 12px;
+    background: rgba(94, 158, 255, 0.2);
+    border: 1px solid rgba(94, 158, 255, 0.3);
+    color: var(--accent);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  .cat-badge.brand { background: rgba(240, 192, 96, 0.15); border-color: rgba(240, 192, 96, 0.25); color: var(--gold); }
+  .cat-badge.video-badge { background: rgba(94, 200, 120, 0.15); border-color: rgba(94, 200, 120, 0.25); color: #5ec878; }
+  .cat-badge.link-badge { background: rgba(200, 130, 240, 0.15); border-color: rgba(200, 130, 240, 0.25); color: #c882f0; }
+  .cat-info { padding: 20px 22px; }
+  .cat-tag { font-size: 11px; font-weight: 600; color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; }
+  .cat-title { font-size: 16px; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; letter-spacing: -0.01em; }
+  .cat-desc { font-size: 13px; color: var(--text-tertiary); line-height: 1.5; }
+  .cat-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 10px; font-size: 12px; font-weight: 500;
+    color: var(--accent); text-decoration: none;
+    padding: 6px 12px; border-radius: 16px;
+    background: var(--accent-soft); border: 1px solid rgba(94, 158, 255, 0.2);
+    transition: all 0.25s;
+  }
+  .cat-link:hover { background: rgba(94, 158, 255, 0.25); border-color: var(--accent-glow); }
+  .cat-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .cat-card.wide { grid-column: span 2; }
+  @media (max-width: 640px) {
+    .category-grid { grid-template-columns: 1fr; gap: 14px; }
+    .cat-card.wide { grid-column: span 1; }
+    .cat-info { padding: 16px 18px; }
+  }
 </style>
 </head>
 <body>
@@ -259,51 +366,93 @@
     </div>
   </section>
 
-  <section id="videos">
+    <section id="videos">
     <div class="section-header reveal">
-      <p class="section-label">视频作品</p>
-      <h2>代表案例精选</h2>
+      <p class="section-label">项目作品</p>
+      <h2>各领域代表案例</h2>
     </div>
-    <div class="video-grid">
-<div class="video-card reveal reveal-delay-2">
-        <div class="video-thumb" data-video="allstar_sports.mp4">
+    <div class="category-grid">
+
+      <!-- Card 1: MonsterGuardians -->
+      <div class="cat-card reveal reveal-delay-1">
+        <div class="cat-thumb" style="background: linear-gradient(135deg, rgba(240,192,96,0.08), rgba(240,192,96,0.02));">
+          <a class="cat-icon" href="https://v.douyin.com/NqbYnWlL9Es/" target="_blank" rel="noopener" title="MonsterGuardians 抖音品牌号">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+          </a>
+          <span class="cat-badge brand">品牌账号</span>
+        </div>
+        <div class="cat-info">
+          <div class="cat-tag">品牌账号运营</div>
+          <div class="cat-title">MonsterGuardians 品牌抖音号</div>
+          <div class="cat-desc">负责品牌账号内容策略与日常运营，建立品牌调性与粉丝粘性</div>
+          <a class="cat-link" href="https://v.douyin.com/NqbYnWlL9Es/" target="_blank" rel="noopener">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            查看抖音主页
+          </a>
+        </div>
+      </div>
+
+      <!-- Card 2: Desk Setup Accounts -->
+      <div class="cat-card reveal reveal-delay-2">
+        <div class="cat-thumb" style="background: linear-gradient(135deg, rgba(200,130,240,0.08), rgba(200,130,240,0.02));">
+          <a class="cat-icon" href="https://v.douyin.com/jZwiac4F-EE/" target="_blank" rel="noopener" title="数码桌搭账号">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </a>
+          <span class="cat-badge link-badge">达人矩阵</span>
+        </div>
+        <div class="cat-info">
+          <div class="cat-tag">数码桌搭 · 多账号运营</div>
+          <div class="cat-title">数码桌搭达人矩阵</div>
+          <div class="cat-desc">独立负责2个数码达人账号从0搭建，完成冷启动与日常内容规划</div>
+          <div class="cat-links">
+            <a class="cat-link" href="https://v.douyin.com/jZwiac4F-EE/" target="_blank" rel="noopener">桌搭账号 ①</a>
+            <a class="cat-link" href="https://v.douyin.com/C6mJ7zigKLM/" target="_blank" rel="noopener">桌搭账号 ②</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: 全明星运动会 Video -->
+      <div class="cat-card reveal reveal-delay-3">
+        <div class="cat-thumb">
           <video class="video-player" src="allstar_sports.mp4" preload="metadata" muted loop playsinline></video>
-          <button class="play-btn" aria-label="播放">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="6 3 20 12 6 21"/></svg>
-          </button>
+          <button class="play-btn" aria-label="播放"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><polygon points="6 3 20 12 6 21"/></svg></button>
+          <span class="cat-badge video-badge">爆款视频</span>
         </div>
-        <div class="video-info">
-          <div class="video-tag">健身服饰 · 爆款视频</div>
-          <div class="video-title">全明星运动会创意系列</div>
-          <div class="video-desc">策划男女健身区别及全明星运动会创意视频，单条全平台播放 2000W+，品牌曝光量从 3000W 提升至 1 亿</div>
+        <div class="cat-info">
+          <div class="cat-tag">健身服饰 · 爆款内容</div>
+          <div class="cat-title">全明星运动会创意系列</div>
+          <div class="cat-desc">策划男女健身区别及全明星运动会创意视频，单条全平台播放2000W+，品牌曝光量从3000W提升至1亿</div>
         </div>
       </div>
-      <div class="video-card reveal reveal-delay-3">
-        <div class="video-thumb" data-video="qianchuan_ad.mp4">
+
+      <!-- Card 4: 千川投放 Video -->
+      <div class="cat-card reveal reveal-delay-4">
+        <div class="cat-thumb">
           <video class="video-player" src="qianchuan_ad.mp4" preload="metadata" muted loop playsinline></video>
-          <button class="play-btn" aria-label="播放">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="6 3 20 12 6 21"/></svg>
-          </button>
+          <button class="play-btn" aria-label="播放"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><polygon points="6 3 20 12 6 21"/></svg></button>
+          <span class="cat-badge video-badge">投放素材</span>
         </div>
-        <div class="video-info">
-          <div class="video-tag">千川投放 · 高转化素材</div>
-          <div class="video-title">千川投放素材矩阵</div>
-          <div class="video-desc">搭建千川素材团队，多模式编拍剪，ROI 从 3 提升至 10，千川单月 GMV 从 15W 提升至 100W，年 GMV 1000W+</div>
+        <div class="cat-info">
+          <div class="cat-tag">千川投放 · 高转化</div>
+          <div class="cat-title">千川投放素材矩阵</div>
+          <div class="cat-desc">搭建千川素材团队，多模式编拍剪，ROI从3提升至10，千川单月GMV从15W提升至100W，年GMV1000W+</div>
         </div>
       </div>
-      <div class="video-card reveal reveal-delay-4">
-        <div class="video-thumb" data-video="mini_camera.mp4">
+
+      <!-- Card 5: Mini 相机 Video (spans full width on desktop) -->
+      <div class="cat-card wide reveal reveal-delay-4">
+        <div class="cat-thumb" style="aspect-ratio: 21/9;">
           <video class="video-player" src="mini_camera.mp4" preload="metadata" muted loop playsinline></video>
-          <button class="play-btn" aria-label="播放">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="6 3 20 12 6 21"/></svg>
-          </button>
+          <button class="play-btn" aria-label="播放"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><polygon points="6 3 20 12 6 21"/></svg></button>
+          <span class="cat-badge video-badge">带货转化</span>
         </div>
-        <div class="video-info">
-          <div class="video-tag">数码产品 · 达人带货</div>
-          <div class="video-title">Mini 相机爆款短视频</div>
-          <div class="video-desc">主导策划 mini 相机带货短视频，斩获 30W 点赞，单日引流成交 GMV 超 20W，沉淀标准化内容脚本模板</div>
+        <div class="cat-info">
+          <div class="cat-tag">数码产品 · 达人带货</div>
+          <div class="cat-title">Mini 相机爆款短视频</div>
+          <div class="cat-desc">主导策划mini相机带货短视频，斩获30W点赞，单日引流成交GMV超20W，沉淀标准化内容脚本模板，批量复制放大转化</div>
         </div>
       </div>
+
     </div>
   </section>
 
